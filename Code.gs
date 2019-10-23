@@ -12,9 +12,9 @@
 
 ///// Facebook Details ///////
 
-var CLIENT_ID = '';     // Insert App ID                                        
+var CLIENT_ID = '553770455374851';     // Insert App ID                                        
 
-var CLIENT_SECRET = '';   // Insert App Secret
+var CLIENT_SECRET = '47cec9dff9a9ff8cd0f158f2b0f6dc51';   // Insert App Secret
 
 var FB_AD_ACCOUNT_ID = '';   //Ad Account Id
 
@@ -154,7 +154,7 @@ function makeRequest(ACCOUNTDATAOBJECT) {
 if(!ACCOUNTDATAOBJECT['callFrom']) {ACCOUNTDATAOBJECT = ACCOUNTDATA}  
 
  var fbRequest = getService(); 
- var requestEndpoint = "https://graph.facebook.com/v3.3/act_"+ACCOUNTDATAOBJECT['facebookData']['facebookAccountId']+"/insights?"
+ var requestEndpoint = "https://graph.facebook.com/v4.0/act_"+ACCOUNTDATAOBJECT['facebookData']['facebookAccountId']+"/insights?"
  var param = {'limit':ACCOUNTDATAOBJECT['additionalData']['limit'],'level': ACCOUNTDATAOBJECT['facebookData']['facebookLevel']}
  
  if(ACCOUNTDATAOBJECT['additionalData']['isGaUpload']) {
@@ -194,7 +194,7 @@ return
   
   
 if(ACCOUNTDATAOBJECT['additionalData']['isGaUpload'] && parseData.data.length > 0){
-var utms_endpoint = "https://graph.facebook.com/v3.3/act_"+ACCOUNTDATAOBJECT['facebookData']['facebookAccountId']+"/ads?fields=adcreatives%7Burl_tags%7D&limit="+5000
+var utms_endpoint = "https://graph.facebook.com/v4.0/act_"+ACCOUNTDATAOBJECT['facebookData']['facebookAccountId']+"/ads?fields=adcreatives%7Burl_tags%7D&limit="+5000
 var utms_ads = UrlFetchApp.fetch(utms_endpoint, 
 {headers: {'Authorization': 'Bearer ' + fbRequest.getAccessToken()},muteHttpExceptions : true}) 
 
@@ -369,7 +369,7 @@ function getService() {
   return OAuth2.createService('Facebook')
       // Set the endpoint URLs.
       .setAuthorizationBaseUrl('https://www.facebook.com/dialog/oauth')
-      .setTokenUrl('https://graph.facebook.com/v3.3/oauth/access_token')
+      .setTokenUrl('https://graph.facebook.com/v4.0/oauth/access_token')
 
       // Set the client ID and secret.
       .setClientId(CLIENT_ID)
@@ -424,7 +424,7 @@ function successUI(isAuth){
 function adAccounts(){
 
  var fbRequest = getService(); 
-  var addaccounts_endpoint = "https://graph.facebook.com/v3.3/me?fields=adaccounts.limit(100)%7Bname,account_id%7D" 
+  var addaccounts_endpoint = "https://graph.facebook.com/v4.0/me?fields=adaccounts.limit(100)%7Bname,account_id%7D" 
  
   var adAccountInfo = UrlFetchApp.fetch(addaccounts_endpoint, 
   {headers: {'Authorization': 'Bearer ' + fbRequest.getAccessToken()},muteHttpExceptions : true}) 
