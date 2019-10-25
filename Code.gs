@@ -1,25 +1,13 @@
-/* Facebook Reporting & Cost Data Upload in Google Analytics 
- * Description: Exports Facebook Ads Data in Google Sheets & Uploads it To Google Analytics.
- * @Ritwikga www.Digishuffle.com
- *
- * Updated: 21-05-2019
- * - Breakdown Feature
- * - Data Import Alerts
- * - UI Improvements & Bug Fixes
- *
- * Recent Updates @https://github.com/RitwikGA/FacebookReportingTool/
- */
-
 ///// Facebook Details ///////
 
 var CLIENT_ID = '553770455374851';     // Insert App ID                                        
 
 var CLIENT_SECRET = '47cec9dff9a9ff8cd0f158f2b0f6dc51';   // Insert App Secret
 
-var FB_AD_ACCOUNT_ID = '';   //Ad Account Id
+var FB_AD_ACCOUNT_ID = '3064026380306669';   //Ad Account Id
 
 // More fields at https://developers.facebook.com/docs/marketing-api/insights/parameters 
-var FB_FIELDS = 'campaign_name,clicks,spend,impressions,date_start'; 
+var FB_FIELDS = 'account_currency,account_name,ad_name,adset_name,buying_type,campaign_name,conversion_rate_ranking,date_start,date_stop,engagement_rate_ranking,objective,place_page_name,quality_ranking,account_id,ad_id,adset_id,campaign_id,canvas_avg_view_percent,canvas_avg_view_time,clicks, cost_per_estimated_ad_recallers,cost_per_inline_post_engagement,cost_per_unique_click,cost_per_unique_inline_link_click,cpc,cpm,cpp,ctr,estimated_ad_recall_rate,estimated_ad_recallers,frequency,full_view_impressions,full_view_reach,impressions,inline_link_click_ctr,inline_link_clicks,inline_post_engagement,instant_experience_clicks_to_open ,instant_experience_clicks_to_start,instant_experience_outbound_clicks,reach,social_spend,spend,unique_clicks,unique_ctr,unique_inline_link_click_ctr,unique_inline_link_clicks,unique_link_clicks_ctr';
 
 // More brekadowns at https://developers.facebook.com/docs/marketing-api/insights/breakdowns 
 var FB_BREAKDOWN = '';     
@@ -29,14 +17,14 @@ var FB_LEVEL = 'campaign'; // ad,adset,campaign,account
 var pos = [1,1]     //Spreadsheet Cell Position
 
 // More DATE_RANGE at https://developers.facebook.com/docs/marketing-api/insights/parameters (date_preset paramteter)
-var DATE_RANGE='last_7d';    //today, yesterday, this_month, last_month, this_quarter, etc 
+var DATE_RANGE='this_month';    //today, yesterday, this_month, last_month, this_quarter, etc 
 
 // To use below date range, make sure DATE_RANGE='' // 
 var start_date='2019-01-01';                // custom date range
 var end_date='2019-01-30';
 var splitByDate = false;
 
-var limit = 100;      //Facebook Graph API Limit per request
+var limit = 1000;      //Facebook Graph API Limit per request
 
 
 // Facebook Ad URL UTMs values (Only for GA Upload Format) //
@@ -67,8 +55,7 @@ var subject = ''                        // Enter Subject Line For Email Else It 
 
 ////// ACCOUNTDATA Literal ////////////////////
 var ACCOUNTDATA = {
-adAccountUIFields : ['account_currency','account_id','account_name','ad_name','adset_name','campaign_name','clicks','impressions','cpc',
-'cpm','date_start','date_stop','reach','spend','unique_clicks'],
+adAccountUIFields : ['account_currency','account_name','ad_name','adset_name','buying_type','campaign_name','conversion_rate_ranking','date_start','date_stop','engagement_rate_ranking','objective','place_page_name','quality_ranking','account_id,ad_id','adset_id','campaign_id','canvas_avg_view_percent','canvas_avg_view_time','clicks','cost_per_estimated_ad_recallers','cost_per_inline_post_engagement','cost_per_unique_click','cost_per_unique_inline_link_click','cpc','cpm','cpp','ctr','estimated_ad_recall_rate','estimated_ad_recallers','frequency','full_view_impressions','full_view_reach','impressions','inline_link_click_ctr','inline_link_clicks','inline_post_engagement','instant_experience_clicks_to_open','instant_experience_clicks_to_start','instant_experience_outbound_clicks','reach','social_spend','spend','unique_clicks','unique_ctr','unique_inline_link_click_ctr','unique_inline_link_clicks','unique_link_clicks_ctr'],
    /// The Columns To Be Populated in the Fields Box in the UI.
 adAccountLevels : ['ad','adset','campaign','account'], /// The Columns To Be Populated in the Fields Box in the UI.
 adAccountBreakdowns : ['age','country','gender','impression_device','product_id','region','dma','frequency_value','hourly_stats_aggregated_by_advertiser_time_zone',
